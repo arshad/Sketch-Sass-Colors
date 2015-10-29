@@ -1,0 +1,154 @@
+// Default key for NSUserDefaults.
+var key = "SketchSassColorsSassVariablesStrings";
+
+// Callback for configure action.
+var SketchSassColorsConfigure = function(context) {
+
+  // Get the default Sass variables.
+  var defaultSassVariablesStrings = SketchSassColors.getSassVariablesString();
+  if (defaultSassVariablesStrings == nil) {
+    defaultSassVariablesStrings = '';
+  }
+
+  // Ask user for Sass variables.
+  var sassVariablesStrings = SketchSassColors.askForInput('Sketch Sass Colors', 'Paste Sass variables below:', defaultSassVariablesStrings);
+  if (sassVariablesStrings) {
+
+    // Save the variables to defaults.
+    SketchSassColors.setSassVariablesString(sassVariablesStrings);
+
+    // Display a success message.
+    var doc = context.document;
+    [doc showMessage:"Sass variables saved successfully"];
+  }
+}
+
+// Callback for show action.
+var SketchSassColorsShowColors = function(context) {
+  var message = 'No colors found.';
+
+  // Get layers from selection.
+  var selectedLayers = context.selection;
+  if (selectedLayers.count() != 0) {
+    // Get colors for the first layer.
+    var layer = selectedLayers[0];
+    var colors = SketchSassColors.getColorsFromLayer(layer);
+
+    // Format a message using the colors.
+    if (colors) {
+      var defaultSassVariablesStrings = SketchSassColors.getSassVariablesString();
+      var variables = SketchSassColors.getSassVariablesFromString(defaultSassVariablesStrings);
+      message = SketchSassColors.getMessageForColorsWithVariables(colors, variables);
+    }
+  };
+
+  // Display the message.
+  var doc = context.document;
+  [doc showMessage:message];
+};
+
+// Sketch Sass Colors.
+var SketchSassColors = {
+
+  // Returns colors from a layer.
+  getColorsFromLayer: function(layer) {
+    var layerClass = [layer class];
+
+    // Return nil if a group of layers is selected.
+    if (layerClass == 'MSLayerGroup') {
+      return nil;
+    }
+
+    var colors = {};
+    if (layerClass == 'MSTextLayer') {
+      colors.text = layer.textColor().hexValue().toString();
+    }
+    else {
+      if (layer.style().fills().count() > 0) {
+        var color = layer.style().fills().firstObject().color();
+        colors.fill = color.hexValue().toString();
+      }
+
+      if (layer.style().borders().count() > 0) {
+        var color = layer.style().borders().firstObject().color();
+        colors.border = color.hexValue().toString();
+      }
+    }
+
+    return colors;
+  },
+
+  // Formats a message using colors and variables.
+  getMessageForColorsWithVariables: function(colors, variables) {
+    var message = '';
+    for (var key in colors) {
+      var color = colors[key];
+      var name = variables[color.toLowerCase()];
+      var value = '#' + color;
+      if (name) {
+        value = name + ' (#' + color + ') ';
+      }
+
+      message += key.capitalize() + ': ' + value + ' ';
+    }
+
+    return message;
+  },
+
+  // Returns the Sass Variables String from NSUserDefaults.
+  getSassVariablesString: function() {
+    return [[NSUserDefaults standardUserDefaults] stringForKey:key];
+  },
+
+  // Sets the Sass Variables String using NSUserDefaults.
+  setSassVariablesString: function(value) {
+    var defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:value forKey:key]];
+    [defaults synchronize];
+  },
+
+  // Parses a string for Sass Colors.
+  getSassVariablesFromString: function(string) {
+    var variables = NSMutableDictionary.dictionary();
+    var regex = /^(\$[a-z0-9\-\_]*)\:\s+#([0-9abcdef]*)/gm;
+    var matches;
+
+    while ((matches = regex.exec(string)) !== null) {
+      if (matches.index === regex.lastIndex) {
+        regex.lastIndex++;
+      }
+
+      variables.setObject_forKey_(matches[1], matches[2]);
+    }
+
+    return variables;
+  },
+
+  // Helper to display an alert window.
+  askForInput: function(title, description, defaultValue) {
+    var alert = COSAlertWindow.new();
+    alert.setIcon(nil);
+    alert.addButtonWithTitle('Save');
+    alert.addButtonWithTitle('Cancel');
+
+    alert.setMessageText(title);
+    alert.setInformativeText(description);
+
+    var textFieldView = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 10, 300, 300)];
+    textFieldView.setStringValue(defaultValue);
+    alert.addAccessoryView(textFieldView);
+
+    var userInput = alert.runModal();
+    if(userInput == "1000") {
+      return alert.viewAtIndex(0).stringValue();
+    }
+
+    return nil;
+  }
+}
+
+// Helper to capitalize a string.
+// Source: http://stackoverflow.com/questions/2332811/capitalize-words-in-string.
+String.prototype.capitalize = function() {
+  return this.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+};
