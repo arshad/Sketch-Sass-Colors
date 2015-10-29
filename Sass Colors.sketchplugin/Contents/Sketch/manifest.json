@@ -1,0 +1,31 @@
+{
+  "name" : "Sketch Sass Colors",
+  "author" : "Arshad Chummun",
+  "identifier" : "io.arshad.sketch-sass-colors",
+  "version" : "1.0",
+  "description" : "Sass Colors for Sketch",
+  "authorEmail" : "arshad@chummun.com",
+  "menu" : {
+    "title" : "Sass Colors",
+    "items" : [
+      "configure",
+      "show"
+    ]
+  },
+  "commands" : [
+    {
+      "script" : "sketch-sass-colors.cocoascript",
+      "handler" : "SketchSassColorsConfigure",
+      "shortcut" : "",
+      "name" : "Configure",
+      "identifier" : "configure"
+    },
+    {
+      "script" : "sketch-sass-colors.cocoascript",
+      "handler" : "SketchSassColorsShowColors",
+      "shortcut" : "ctrl shift c",
+      "name" : "Show Colors",
+      "identifier" : "show"
+    }
+  ]
+}
