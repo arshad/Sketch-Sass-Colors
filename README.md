@@ -5,10 +5,13 @@ This plugin displays colors as Sass variables for Sketch.
 
 # Installation
 
-1. Download the plugin and double click to install.
-2. From the Sketch Menu bar, click on `Plugins ▸ Sass Colors ▸ Configure`.
-3. Copy and paste the contents of your `_variables.scss`.
-4. Save.
+![sketch-sass-colors-configure](https://cloud.githubusercontent.com/assets/124599/10826257/50944bb0-7e82-11e5-93af-4d51ddfc5684.png)
+
+1. Download and extract the plugin.
+2. Double click to install.
+3. From the Sketch Menu bar, click on `Plugins ▸ Sass Colors ▸ Configure`.
+4. Copy and paste the contents of your `_variables.scss`.
+5. Save.
 
 # How to use
 
