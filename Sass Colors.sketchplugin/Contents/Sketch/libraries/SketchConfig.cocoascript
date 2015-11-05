@@ -1,0 +1,25 @@
+var SketchConfig = {
+  /**
+   * Sets the value of config using NSUserDefaults.
+   *
+   * @param name
+   *  The name of the config.
+   * @param value
+   *  The value of the config.
+   */
+  set: function(name, value) {
+    var defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:value forKey:name]];
+    [defaults synchronize];
+  },
+
+  /**
+   * Returns the value of config from NSUserDefaults.
+   *
+   * @param name
+   *  The name of the config.
+   */
+  get: function(name) {
+    return [[NSUserDefaults standardUserDefaults] stringForKey:name];
+  }
+}

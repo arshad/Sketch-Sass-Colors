@@ -1,3 +1,5 @@
+@import './libraries/SketchConfig.cocoascript';
+
 // Default key for NSUserDefaults.
 var key = "SketchSassColorsSassVariablesStrings";
 
@@ -5,7 +7,7 @@ var key = "SketchSassColorsSassVariablesStrings";
 var SketchSassColorsConfigure = function(context) {
 
   // Get the default Sass variables.
-  var defaultSassVariablesStrings = SketchSassColors.getSassVariablesString();
+  var defaultSassVariablesStrings = SketchConfig.get(key);
   if (defaultSassVariablesStrings == nil) {
     defaultSassVariablesStrings = '';
   }
@@ -15,7 +17,7 @@ var SketchSassColorsConfigure = function(context) {
   if (sassVariablesStrings) {
 
     // Save the variables to defaults.
-    SketchSassColors.setSassVariablesString(sassVariablesStrings);
+    SketchConfig.set(key, sassVariablesStrings);
 
     // Display a success message.
     var doc = context.document;
@@ -93,18 +95,6 @@ var SketchSassColors = {
     }
 
     return message;
-  },
-
-  // Returns the Sass Variables String from NSUserDefaults.
-  getSassVariablesString: function() {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:key];
-  },
-
-  // Sets the Sass Variables String using NSUserDefaults.
-  setSassVariablesString: function(value) {
-    var defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:value forKey:key]];
-    [defaults synchronize];
   },
 
   // Parses a string for Sass Colors.
