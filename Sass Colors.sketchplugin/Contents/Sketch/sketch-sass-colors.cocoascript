@@ -38,7 +38,7 @@ var SketchSassColorsShowColors = function(context) {
 
     // Format a message using the colors.
     if (colors) {
-      var defaultSassVariablesStrings = SketchSassColors.getSassVariablesString();
+      var defaultSassVariablesStrings = SketchConfig.get(key);
       var variables = SketchSassColors.getSassVariablesFromString(defaultSassVariablesStrings);
       message = SketchSassColors.getMessageForColorsWithVariables(colors, variables);
     }
