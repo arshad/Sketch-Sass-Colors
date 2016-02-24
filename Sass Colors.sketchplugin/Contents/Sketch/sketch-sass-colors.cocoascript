@@ -38,7 +38,8 @@ var SketchSassColorsShowColors = function(context) {
 
     // Format a message using the colors.
     if (colors) {
-      var variables = SketchConfig.get(key);
+      var defaultSassVariablesStrings = SketchConfig.get(key);
+      var variables = SketchSassColors.getSassVariablesFromString(defaultSassVariablesStrings);
       message = SketchSassColors.getMessageForColorsWithVariables(colors, variables);
     }
   };
@@ -99,7 +100,7 @@ var SketchSassColors = {
   // Parses a string for Sass Colors.
   getSassVariablesFromString: function(string) {
     var variables = NSMutableDictionary.dictionary();
-    var regex = /^(\$[a-z0-9\-\_]*)\:\s+#([0-9abcdef]*)/gm;
+    var regex = /^(\$[a-z0-9\-\_]*)\:\s+#([0-9abcdef]*)/gmi;
     var matches;
 
     while ((matches = regex.exec(string)) !== null) {
@@ -107,7 +108,7 @@ var SketchSassColors = {
         regex.lastIndex++;
       }
 
-      variables.setObject_forKey_(matches[1], matches[2]);
+      variables.setObject_forKey_(matches[1], matches[2].toLowerCase());
     }
 
     return variables;
