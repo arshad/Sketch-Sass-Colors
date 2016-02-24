@@ -13,7 +13,7 @@ var SketchSassColorsConfigure = function(context) {
   }
 
   // Ask user for Sass variables.
-  var sassVariablesStrings = SketchSassColors.askForInput('Sketch Sass Colors', 'Paste Sass variables below:', defaultSassVariablesStrings);
+  var sassVariablesStrings = SketchSassColors.askForInput('Sketch Sass Colors', "Add your Sass variables below:\n\nExample:\n$bg-red: #c0392b;\n$color-green: #2ecc71;\n$blue: #2980b9;\n\n(Use control + enter to add a new line.)", defaultSassVariablesStrings);
   if (sassVariablesStrings) {
 
     // Save the variables to defaults.
