@@ -10,8 +10,30 @@ This plugin displays colors as Sass variables for Sketch.
 1. Download and extract the plugin.
 2. Double click to install.
 3. From the Sketch Menu bar, click on `Plugins ▸ Sass Colors ▸ Configure`.
-4. Copy and paste the contents of your `_variables.scss`.
+4. Copy and paste the contents of your Sass color variables.
 5. Save.
+
+#### Note
+
+You can use both Sass variables or Sass list. See examples below:
+
+```
+// Sass variables.
+$grey: #ccc,
+$grey-light: #EAEBEC,
+$grey-dark: #231F20,
+```
+
+```
+// Sass list.
+$colors: (
+  green: #01A490,
+  teal: #20BDBE,
+  purple: #92278F,
+  purple-light: #C6168D,
+  purple-dark: #5C2E91
+);
+```
 
 # How to use
 
