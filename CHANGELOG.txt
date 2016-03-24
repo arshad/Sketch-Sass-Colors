@@ -1,0 +1,5 @@
+1.2 / 2016-03-24
+================
+
+  * Add documentation for Sass list
+  * Add support for colors in Sass lists
