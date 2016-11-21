@@ -1,5 +1,28 @@
 @import './libraries/SketchConfig.cocoascript';
 
+var percentageToHex = function(c) {
+  c = Math.round(c * 255);
+  var hex = '';
+  if ((c+"").length <= 2) {
+   if (c < 16) {
+    hex = '0' + c.toString(16);
+   } else {
+    hex = c.toString(16);
+   }
+  } else {
+   hex = c.toString(16);
+  }
+  return hex;
+}
+
+var hexValue = function(color) {
+ if (color) {
+   return percentageToHex(color.red()) + percentageToHex(color.green()) + percentageToHex(color.blue());
+ } else {
+   return null
+ }
+}
+
 // Default key for NSUserDefaults.
 var key = "SketchSassColorsSassVariablesStrings";
 
@@ -63,17 +86,17 @@ var SketchSassColors = {
 
     var colors = {};
     if (layerClass == 'MSTextLayer') {
-      colors.text = layer.textColor().hexValue().toString();
+      colors.text = hexValue(layer.textColor()).toString();
     }
     else {
       if (layer.style().fills().count() > 0) {
         var color = layer.style().fills().firstObject().color();
-        colors.fill = color.hexValue().toString();
+        colors.fill = hexValue(color).toString();
       }
 
       if (layer.style().borders().count() > 0) {
         var color = layer.style().borders().firstObject().color();
-        colors.border = color.hexValue().toString();
+        colors.border = hexValue(color).toString();
       }
     }
 
