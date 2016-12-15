@@ -63,17 +63,17 @@ var SketchSassColors = {
 
     var colors = {};
     if (layerClass == 'MSTextLayer') {
-      colors.text = layer.textColor().hexValue().toString();
+      colors.text = layer.textColor().immutableModelObject().hexValue().toString();
     }
     else {
       if (layer.style().fills().count() > 0) {
         var color = layer.style().fills().firstObject().color();
-        colors.fill = color.hexValue().toString();
+        colors.fill = color.immutableModelObject().hexValue().toString();
       }
 
       if (layer.style().borders().count() > 0) {
         var color = layer.style().borders().firstObject().color();
-        colors.border = color.hexValue().toString();
+        colors.border = color.immutableModelObject().hexValue().toString();
       }
     }
 
